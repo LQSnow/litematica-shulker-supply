@@ -1,0 +1,17 @@
+package top.lqsnow.lss.net;
+
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.util.Identifier;
+
+import static top.lqsnow.lss.LitematicaShulkerSupply.MOD_ID;
+
+public record HandshakeS2C(boolean ok) implements CustomPayload {
+    public static final Id<HandshakeS2C> ID = new Id<>(Identifier.of(MOD_ID, "hello_s2c"));
+    public static final PacketCodec<PacketByteBuf, HandshakeS2C> CODEC =
+            PacketCodec.of((value, buf) -> buf.writeBoolean(value.ok), buf -> new HandshakeS2C(buf.readBoolean()));
+
+    @Override
+    public Id<? extends CustomPayload> getId() { return ID; }
+}
