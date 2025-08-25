@@ -19,6 +19,9 @@ import top.lqsnow.lss.mixin.AccessorLitematicaInventoryUtils;
 import top.lqsnow.lss.net.SwapFromShulkerC2S;
 
 /**
+ * Core client-side logic for swapping items between shulker boxes and the
+ * player's hotbar.
+ * <p>
  * 客户端关于潜影盒整格互换的核心逻辑封装。
  */
 public class ShulkerSwapClientLogic {
