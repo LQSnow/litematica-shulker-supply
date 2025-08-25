@@ -7,6 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ContainerComponent;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
@@ -96,27 +97,26 @@ public class LitematicaShulkerSupply implements ModInitializer {
         ItemStack fromBox = list.get(innerIndex).copy();
         if (fromBox.isEmpty()) return;
 
-        int destContainerSlotId = 36 + destHotbar; // Server container index
-        if (destContainerSlotId < 0 || destContainerSlotId >= handler.slots.size()) return;
-
-        Slot destSlot = handler.slots.get(destContainerSlotId);
-        ItemStack destExisting = destSlot.getStack().copy();
+        // ✅ 关键改动：用玩家“逻辑热栏索引”直接访问/写入，而不是 36 + hotbar 的容器索引
+        PlayerInventory inv = player.getInventory();
+        ItemStack destExisting = inv.getStack(destHotbar).copy();
 
         // Prevent "shulker-in-shulker"
         if (!destExisting.isEmpty() && destExisting.getItem() instanceof BlockItem bi2 && bi2.getBlock() instanceof ShulkerBoxBlock) {
             return;
         }
 
-        // Perform swap
-        destSlot.setStack(fromBox);
+        // 执行互换：热栏 <- 盒内；盒内 <- 原热栏
+        inv.setStack(destHotbar, fromBox);
         list.set(innerIndex, destExisting);
         boxStack.set(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(list));
         boxSlot.setStack(boxStack);
 
-        // Select the hotbar slot to match client prediction
-        player.getInventory().setSelectedSlot(destHotbar);
+        // 选择该热栏（与客户端预测一致）
+        inv.setSelectedSlot(destHotbar);
 
-        // Sync
+        // 标脏 + 同步
+        inv.markDirty();
         handler.sendContentUpdates();
     }
 }
