@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(value = fi.dy.masa.litematica.util.InventoryUtils.class, remap = true)
+@Mixin(value = fi.dy.masa.litematica.util.InventoryUtils.class)
 public interface AccessorLitematicaInventoryUtils {
 
     @Invoker("getEmptyPickBlockableHotbarSlot")

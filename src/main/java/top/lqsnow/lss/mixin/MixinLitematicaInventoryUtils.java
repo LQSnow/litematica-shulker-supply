@@ -15,7 +15,7 @@ import fi.dy.masa.litematica.util.EntityUtils;
 import top.lqsnow.lss.client.LitematicaShulkerSupplyClient;
 import top.lqsnow.lss.client.ShulkerSwapClientLogic;
 
-@Mixin(value = fi.dy.masa.litematica.util.InventoryUtils.class, remap = true)
+@Mixin(value = fi.dy.masa.litematica.util.InventoryUtils.class)
 public abstract class MixinLitematicaInventoryUtils {
 
     private static final ThreadLocal<ItemStack> LSS$REQUIRED = new ThreadLocal<>();
