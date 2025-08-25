@@ -1,6 +1,6 @@
 # Litematica Shulker Supply
 
-Litematica Shulker Supply 是一个 Fabric 模组，为 Litematica 及其打印机添加“潜影盒整格供应”功能：当需要某种物品时，将其从潜影盒中整格取出并放入快捷栏。
+Litematica Shulker Supply 是一个 Fabric 模组，为 Litematica 及其打印机添加“潜影盒供应”功能：当需要某种物品时，将其从潜影盒中整格取出并放入快捷栏。
 
 ## 特性
 
