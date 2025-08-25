@@ -3,9 +3,9 @@
 	"id": "litematica-shulker-supply",
 	"version": "${version}",
 	"name": "Litematica Shulker Supply",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "When Easy Place / printers need blocks that aren't in your inventory but are inside a carried shulker, automatically withdraw them to your hand.",
 	"authors": [
-		"Me!"
+		"LQ_Snow"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -23,7 +23,8 @@
 		]
 	},
 	"mixins": [
-		"litematica-shulker-supply.mixins.json"
+		"litematica-shulker-supply.mixins.json",
+		"litematica-shulker-supply.printer.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.16.0",

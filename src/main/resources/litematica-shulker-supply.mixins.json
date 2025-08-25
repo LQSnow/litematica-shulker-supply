@@ -8,9 +8,7 @@
     "ConfigsMixin",
     "ConfigsGenericMixin",
     "AccessorLitematicaInventoryUtils",
-    "MixinLitematicaInventoryUtils",
-    "printer.GuideShulkerAccessMixin",
-    "printer.PrepareActionSupplyMixin"
+    "MixinLitematicaInventoryUtils"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,0 +1,10 @@
+{
+  "required": false,
+  "package": "top.lqsnow.lss.mixin.printer",
+  "plugin": "top.lqsnow.lss.mixin.PrinterMixinPlugin",
+  "mixins": [
+    "GuideShulkerAccessMixin",
+    "PrepareActionSupplyMixin"
+  ],
+  "injectors": { "defaultRequire": 1 }
+}

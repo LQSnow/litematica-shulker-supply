@@ -15,12 +15,11 @@ public final class Configs {
     private Configs() {
     }
 
-    private static final String KEY_BASE = LitematicaShulkerSupply.MOD_ID + ".config";
-    private static final String GENERIC_K = KEY_BASE + ".generic";
+    private static final String GENERIC = LitematicaShulkerSupply.MOD_ID + ".config.generic";
 
     /** 是否启用潜影盒供应功能 */
     public static final ConfigBoolean ENABLED =
-            new ConfigBoolean("shulker-supply-enabled", true).apply(GENERIC_K);
+            new ConfigBoolean("shulkerSupply", true).apply(GENERIC);
 
     /**
      * 返回本模组自定义的配置项列表，供 Litematica 注册。

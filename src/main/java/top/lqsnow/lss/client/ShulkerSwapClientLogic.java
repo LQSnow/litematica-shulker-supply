@@ -137,4 +137,65 @@ public class ShulkerSwapClientLogic {
     private record ShulkerHit(int containerSlotId, Slot boxSlot, DefaultedList<ItemStack> list, int innerIndex) {
         ItemStack innerCopy() { return list.get(innerIndex).copy(); }
     }
+
+    // === 新增：仅检查“潜影盒里是否有目标物”（不做交换） ===
+    public static boolean hasInAnyShulker(PlayerEntity player, ItemStack required) {
+        if (player == null || required == null || required.isEmpty()) return false;
+
+        PlayerScreenHandler handler = player.playerScreenHandler;
+        for (int i = 0; i < handler.slots.size(); i++) {
+            Slot s = handler.slots.get(i);
+            ItemStack st = s.getStack();
+            if (st.isEmpty()) continue;
+            if (!(st.getItem() instanceof BlockItem bi) || !(bi.getBlock() instanceof ShulkerBoxBlock)) continue;
+
+            ContainerComponent container = st.getComponents().get(DataComponentTypes.CONTAINER);
+            if (container == null) continue;
+
+            DefaultedList<ItemStack> list = DefaultedList.ofSize(27, ItemStack.EMPTY);
+            container.copyTo(list);
+
+            if (firstIndexMatch(list, required) >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // === 新增：强制把物品换到“指定热栏槽位” ===
+    public static boolean tryExtractFromShulkerAndSwapToSlot(MinecraftClient mc, ItemStack required, int hotbarSlot) {
+        PlayerEntity player = mc.player;
+        if (player == null || required == null || required.isEmpty()) return false;
+        if (!PlayerInventory.isValidHotbarIndex(hotbarSlot)) return false;
+
+        PlayerScreenHandler handler = player.playerScreenHandler;
+
+        // 目标槽不能是潜影盒
+        ItemStack destExisting = player.getInventory().getStack(hotbarSlot);
+        if (!destExisting.isEmpty() && destExisting.getItem() instanceof BlockItem bi && bi.getBlock() instanceof ShulkerBoxBlock) {
+            return false;
+        }
+
+        // 找第一只匹配的潜影盒
+        ShulkerHit hit = findShulkerWithRequired(handler, required);
+        if (hit == null) return false;
+
+        // 客户端预测
+        ItemStack fromBox = hit.innerCopy();
+        player.getInventory().getMainStacks().set(hotbarSlot, fromBox.copy());
+        player.getInventory().setSelectedSlot(hotbarSlot);
+
+        DefaultedList<ItemStack> list = hit.list;
+        list.set(hit.innerIndex, destExisting.copy());
+        ItemStack boxStack = hit.boxSlot.getStack().copy();
+        boxStack.set(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(list));
+        hit.boxSlot.setStack(boxStack);
+
+        // 发包给服务端
+        ClientPlayNetworking.send(new SwapFromShulkerC2S(hit.containerSlotId, hit.innerIndex, hotbarSlot));
+
+        fi.dy.masa.litematica.util.WorldUtils.setEasyPlaceLastPickBlockTime();
+        return true;
+    }
+
 }
