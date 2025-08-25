@@ -5,6 +5,7 @@ import me.aleksilassila.litematica.printer.implementation.PrinterPlacementContex
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +19,7 @@ import fi.dy.masa.litematica.util.EntityUtils;
 /**
  * 在打印机执行准备动作时，提前尝试从潜影盒中补充所需物品。
  */
-@Mixin(value = PrepareAction.class, remap = false)
+@Mixin(value = PrepareAction.class)
 public abstract class PrepareActionSupplyMixin {
 
     /**
@@ -28,6 +29,7 @@ public abstract class PrepareActionSupplyMixin {
     @Inject(method = "send(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/network/ClientPlayerEntity;)V",
             at = @At("HEAD"))
     private void lss$trySupplyBeforeSend(MinecraftClient client, ClientPlayerEntity player, CallbackInfo ci) {
+        MinecraftClient.getInstance().player.sendMessage(Text.of("111"), false);
         if (player == null || player.isCreative()) return;
         if (!top.lqsnow.lss.config.Configs.ENABLED.getBooleanValue()) return;
         if (Configs.Generic.PICK_BLOCK_SHULKERS.getBooleanValue()) return; // 与原生冲突则让原生生效

@@ -1,4 +1,4 @@
 {
-  "litematica-shulker-supply.config.generic.name.shulker-supply-enabled": "Enable Shulker Supply",
-  "litematica-shulker-supply.config.generic.comment.shulker-supply-enabled": "When Easy Place / printers need blocks that aren't in your inventory but are inside a carried shulker, automatically withdraw them to your hand."
+  "litematica-shulker-supply.config.generic.name.shulkerSupply": "Enable Shulker Supply",
+  "litematica-shulker-supply.config.generic.comment.shulkerSupply": "When Easy Place / printers need blocks that aren't in your inventory but are inside a carried shulker, automatically withdraw them to your hand."
 }
