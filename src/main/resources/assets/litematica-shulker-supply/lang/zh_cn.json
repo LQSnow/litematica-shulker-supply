@@ -1,0 +1,4 @@
+{
+  "litematica-shulker-supply.config.generic.name.enabled": "启用潜影盒自动补货",
+  "litematica-shulker-supply.config.generic.comment.enabled": "当 Easy Place 或打印机需要的方块不在背包中、但在你携带的潜影盒内时，自动从该潜影盒提取到手上。"
+}

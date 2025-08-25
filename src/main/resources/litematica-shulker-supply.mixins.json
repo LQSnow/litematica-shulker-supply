@@ -1,0 +1,17 @@
+{
+	"required": true,
+	"package": "top.lqsnow.lss.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+	],
+	"client": [
+		"ConfigsMixin",
+		"GuiConfigsMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}
