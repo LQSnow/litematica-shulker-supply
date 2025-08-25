@@ -12,6 +12,9 @@ import net.minecraft.util.collection.DefaultedList;
 
 import java.util.List;
 
+/**
+ * 与打印机相关的潜影盒扫描工具。
+ */
 public final class ShulkerScan {
     private ShulkerScan() {}
 

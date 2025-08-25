@@ -15,9 +15,14 @@ import fi.dy.masa.litematica.util.EntityUtils;
 import top.lqsnow.lss.client.LitematicaShulkerSupplyClient;
 import top.lqsnow.lss.client.ShulkerSwapClientLogic;
 
+/**
+ * 在 Litematica 的 InventoryUtils 中注入潜影盒物品交换逻辑，
+ * 以在 pick block 时优先从潜影盒供应所需物品。
+ */
 @Mixin(value = fi.dy.masa.litematica.util.InventoryUtils.class)
 public abstract class MixinLitematicaInventoryUtils {
 
+    /** 临时记录 pick block 前所需物品 */
     private static final ThreadLocal<ItemStack> LSS$REQUIRED = new ThreadLocal<>();
 
     @Inject(

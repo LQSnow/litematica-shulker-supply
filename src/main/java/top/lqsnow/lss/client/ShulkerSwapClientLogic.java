@@ -18,9 +18,20 @@ import fi.dy.masa.malilib.util.InfoUtils;
 import top.lqsnow.lss.mixin.AccessorLitematicaInventoryUtils;
 import top.lqsnow.lss.net.SwapFromShulkerC2S;
 
+/**
+ * 客户端关于潜影盒整格互换的核心逻辑封装。
+ */
 public class ShulkerSwapClientLogic {
 
 
+    /**
+     * 尝试从潜影盒中取出匹配的物品并与指定快捷栏槽位整格互换。
+     * 成功时会进行客户端预测并向服务端发送确认数据包。
+     *
+     * @param mc       当前客户端实例
+     * @param required 需要的物品
+     * @return 是否成功完成互换
+     */
     public static boolean tryExtractFromShulkerAndSwap(MinecraftClient mc, ItemStack required) {
         PlayerEntity player = mc.player;
         if (player == null || required == null || required.isEmpty()) return false;
@@ -66,6 +77,9 @@ public class ShulkerSwapClientLogic {
         return true;
     }
 
+    /**
+     * 在当前容器中查找第一只包含所需物品的潜影盒。
+     */
     private static ShulkerHit findShulkerWithRequired(PlayerScreenHandler handler, ItemStack required) {
         for (int i = 0; i < handler.slots.size(); i++) {
             Slot s = handler.slots.get(i);
@@ -87,6 +101,9 @@ public class ShulkerSwapClientLogic {
         return null;
     }
 
+    /**
+     * 在潜影盒物品列表中查找第一处与目标物品匹配的索引。
+     */
     private static int firstIndexMatch(DefaultedList<ItemStack> list, ItemStack required) {
         for (int i = 0; i < list.size(); i++) {
             ItemStack it = list.get(i);
@@ -97,6 +114,9 @@ public class ShulkerSwapClientLogic {
         return -1;
     }
 
+    /**
+     * 选择目标快捷栏槽位，要求该槽位可用于 pick block 且不是潜影盒。
+     */
     private static int pickHotbarTarget(PlayerInventory inv, PlayerEntity player) {
         int slot = AccessorLitematicaInventoryUtils.lss$invokeGetEmptyPickBlockableHotbarSlot(inv);
         if (slot == -1) {
@@ -111,6 +131,9 @@ public class ShulkerSwapClientLogic {
         return slot;
     }
 
+    /**
+     * 记录一次命中的潜影盒及其相关信息。
+     */
     private record ShulkerHit(int containerSlotId, Slot boxSlot, DefaultedList<ItemStack> list, int innerIndex) {
         ItemStack innerCopy() { return list.get(innerIndex).copy(); }
     }

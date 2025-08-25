@@ -15,6 +15,9 @@ import top.lqsnow.lss.client.ShulkerSwapClientLogic;
 import fi.dy.masa.litematica.config.Configs;
 import fi.dy.masa.litematica.util.EntityUtils;
 
+/**
+ * 在打印机执行准备动作时，提前尝试从潜影盒中补充所需物品。
+ */
 @Mixin(value = PrepareAction.class, remap = false)
 public abstract class PrepareActionSupplyMixin {
 
