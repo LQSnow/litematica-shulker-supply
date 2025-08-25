@@ -2,7 +2,7 @@
 
 > 中文版请见 **[README.zh.md](README.zh.md)**
 
-A tiny Fabric mod that teaches **Litematica** (and optionally **Litematica Printer**) to auto-restock from **Shulker Boxes** in your **player inventory**: when a required item is missing, it swaps a full slot from the shulker directly into your hotbar.
+A tiny Fabric mod that teaches **Litematica** (and optionally **Litematica Printer**) to auto‑restock from **Shulker Boxes** in your **player inventory**. When an item is missing, it swaps an entire slot from the shulker directly into your hotbar.
 
 ---
 
@@ -30,17 +30,21 @@ Install on **both client and server**:
 
 ---
 
-## Installation & Usage
+## Installation
 
-1) **Install on both sides** (client & server).
-2) Launch the game and open **Litematica → Config → Generic**:
-    - Enable **`shulkerSupply`**  
-      *(shown in Chinese UI as **“启用潜影盒自动补货”**)*
-    - **Disable** Litematica’s **`pickBlockShulkers`**  
-      *(shown in Chinese UI as **“选取有此方块的潜影盒”**)*
-      > If `pickBlockShulkers` is **ON**, the mod intentionally **defers** to Litematica’s native behavior and does nothing.
-3) Put shulker boxes **in your inventory** (not placed in the world).
-4) Build/print as usual — when an item is missing, it swaps from the first matching shulker slot into a valid hotbar slot and selects it.
+1. Install on **both client and server**.
+2. Drop the mod JAR into each side’s `mods` folder.
+
+## Usage
+
+1. Launch the game and open **Litematica → Config → Generic**.
+   - Enable **`shulkerSupply`**  \\
+     *(shown in Chinese UI as **“启用潜影盒自动补货”**)*
+   - **Disable** Litematica’s **`pickBlockShulkers`**  \\
+     *(shown in Chinese UI as **“选取有此方块的潜影盒”**)*
+     > If `pickBlockShulkers` remains **enabled**, the mod defers to Litematica’s built‑in behavior and does nothing.
+2. Put shulker boxes **in your inventory** (not placed in the world).
+3. Build or print as usual — when an item is missing, the mod swaps from the first matching shulker slot into a valid hotbar slot and selects it.
 
 ---
 
@@ -58,3 +62,8 @@ Install on **both client and server**:
 
 ```bash
 ./gradlew build
+```
+
+## License
+
+MIT License
