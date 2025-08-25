@@ -29,7 +29,7 @@ dependencies {
 	modImplementation "com.github.sakura-ryoko:litematica:${project.litematica_version}"
 	modCompileOnly "maven.modrinth:litematica-printer:${project.printer_version}"
 
-	modRuntimeOnly "maven.modrinth:litematica-printer:${project.printer_version}"
+//	modRuntimeOnly "maven.modrinth:litematica-printer:${project.printer_version}"
 	
 }
 
