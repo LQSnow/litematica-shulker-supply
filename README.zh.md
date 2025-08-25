@@ -19,6 +19,22 @@ Litematica Shulker Supply 是一个 Fabric 模组，为 Litematica 及其打印�
 - Minecraft 1.21.8 与 Fabric Loader ≥ 0.17.2
 - Java 21
 
+## 安装
+
+1. 客户端与服务端**均需**安装本模组。
+2. 将 JAR 文件放入各自的 `mods` 文件夹。
+
+## 使用
+
+1. 启动游戏并打开 **Litematica → 配置 → 通用**。
+   - 启用 **`shulkerSupply`**（界面中显示为 **“启用潜影盒自动补货”**）
+   - 关闭 **`pickBlockShulkers`**（界面中显示为 **“选取有此方块的潜影盒”**）  
+     > 若未关闭 `pickBlockShulkers`，模组会让位于 Litematica 的原生行为。
+2. 将潜影盒放在**物品栏**中（而非放置在地面上）。
+3. 像平常一样建造/打印，缺少物品时模组会从匹配的潜影盒整格交换到快捷栏。
+
+配置文件会在首次运行后生成于 `config/litematica-shulker-supply.json`，亦可在其中修改开关。
+
 ## 构建
 
 ```bash
@@ -27,10 +43,6 @@ Litematica Shulker Supply 是一个 Fabric 模组，为 Litematica 及其打印�
 
 首次运行可能需要联网下载依赖。
 
-## 配置
-
-配置文件会在首次运行后生成于 `config/litematica-shulker-supply.json`，可在其中启用或关闭潜影盒供应功能。
-
 ## 许可
 
-本项目基于 MIT License 发布。
+MIT License
