@@ -7,6 +7,9 @@ import net.minecraft.util.Identifier;
 
 import static top.lqsnow.lss.LitematicaShulkerSupply.MOD_ID;
 
+/**
+ * 客户端通知服务端：将潜影盒中的某格与玩家快捷栏槽位进行整格互换。
+ */
 public record SwapFromShulkerC2S(int boxContainerSlotId, int innerIndex, int destHotbarSlot) implements CustomPayload {
 
     public static final Id<SwapFromShulkerC2S> ID = new Id<>(Identifier.of(MOD_ID, "swap_from_shulker"));

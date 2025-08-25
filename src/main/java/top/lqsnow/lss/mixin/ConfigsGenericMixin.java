@@ -11,6 +11,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.lqsnow.lss.config.Configs;
 
+/**
+ * 向 Litematica 原生的 Generic 配置选项列表追加本模组自定义的选项。
+ */
 @Mixin(value = fi.dy.masa.litematica.config.Configs.Generic.class, remap = false, priority = 900)
 public abstract class ConfigsGenericMixin {
     @Shadow @Mutable public static ImmutableList<IConfigBase> OPTIONS;

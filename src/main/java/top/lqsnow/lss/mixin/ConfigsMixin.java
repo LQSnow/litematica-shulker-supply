@@ -7,6 +7,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.lqsnow.lss.LitematicaShulkerSupply;
 
+/**
+ * 在 Litematica 读取和保存配置时同步本模组的配置文件。
+ */
 @Mixin(value = Configs.class, remap = false, priority = 500)
 public class ConfigsMixin {
 

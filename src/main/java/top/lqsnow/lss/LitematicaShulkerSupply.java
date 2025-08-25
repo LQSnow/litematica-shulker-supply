@@ -12,11 +12,8 @@ import top.lqsnow.lss.net.HandshakeS2C;
 import top.lqsnow.lss.net.SwapFromShulkerC2S;
 
 import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.block.Block;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ContainerComponent;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
@@ -24,19 +21,25 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.DefaultedList;
 
+/**
+ * Mod 的服务端入口。负责注册网络负载、处理潜影盒与快捷栏的互换逻辑，并在启动时加载配置。
+ */
 public class LitematicaShulkerSupply implements ModInitializer {
-	public static final String MOD_ID = "litematica-shulker-supply";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final ConfigManager CONFIG = new ConfigManager(
-			FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + ".json")
-	);
+        public static final String MOD_ID = "litematica-shulker-supply";
+        public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+        public static final ConfigManager CONFIG = new ConfigManager(
+                        FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + ".json")
+        );
 
-	@Override
-	public void onInitialize() {
-		// 注册自定义负载类型
-		PayloadTypeRegistry.playC2S().register(HandshakeC2S.ID, HandshakeC2S.CODEC);
-		PayloadTypeRegistry.playS2C().register(HandshakeS2C.ID, HandshakeS2C.CODEC);
-		PayloadTypeRegistry.playC2S().register(SwapFromShulkerC2S.ID, SwapFromShulkerC2S.CODEC);
+        /**
+         * 初始化：注册网络负载、握手与物品互换的处理器，并读取配置。
+         */
+        @Override
+        public void onInitialize() {
+                // 注册自定义负载类型
+                PayloadTypeRegistry.playC2S().register(HandshakeC2S.ID, HandshakeC2S.CODEC);
+                PayloadTypeRegistry.playS2C().register(HandshakeS2C.ID, HandshakeS2C.CODEC);
+                PayloadTypeRegistry.playC2S().register(SwapFromShulkerC2S.ID, SwapFromShulkerC2S.CODEC);
 
 		// 握手
 		ServerPlayNetworking.registerGlobalReceiver(HandshakeC2S.ID, (payload, context) -> {

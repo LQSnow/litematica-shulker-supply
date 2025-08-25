@@ -22,6 +22,9 @@ import fi.dy.masa.litematica.config.Configs;
 import fi.dy.masa.malilib.gui.Message.MessageType;
 import fi.dy.masa.malilib.util.InfoUtils;
 
+/**
+ * 让 Litematica 打印机在缺少物品时也可以从潜影盒中获取并预约快捷栏槽位。
+ */
 @Mixin(value = Guide.class, remap = false)
 public abstract class GuideShulkerAccessMixin {
 

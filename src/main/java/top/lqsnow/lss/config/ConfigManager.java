@@ -19,10 +19,16 @@ public final class ConfigManager {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final Path file;
 
+    /**
+     * @param file 配置文件路径
+     */
     public ConfigManager(Path file) {
         this.file = file;
     }
 
+    /**
+     * 从磁盘读取配置到内存。若文件不存在则写入默认配置。
+     */
     public void load() throws IOException {
         if (!Files.exists(file)) {
             // 首次运行：按默认值写一个文件
@@ -41,6 +47,9 @@ public final class ConfigManager {
         }
     }
 
+    /**
+     * 将内存中的配置写回磁盘。
+     */
     public void save() {
         try {
             Files.createDirectories(file.getParent());
