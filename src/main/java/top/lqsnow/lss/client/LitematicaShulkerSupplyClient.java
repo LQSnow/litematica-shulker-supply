@@ -9,6 +9,9 @@ import top.lqsnow.lss.net.HandshakeC2S;
 import top.lqsnow.lss.net.HandshakeS2C;
 
 /**
+ * Client entry point. Performs handshake with the server and records whether
+ * the server has this mod installed.
+ * <p>
  * 客户端入口，负责与服务器进行握手，并记录服务器是否安装了本模组。
  */
 @Environment(EnvType.CLIENT)

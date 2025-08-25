@@ -13,6 +13,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
+ * Manages loading and saving the mod's configuration. Values from
+ * {@link Configs} (malilib's {@code ConfigBoolean}) are mapped to a simple
+ * JSON file.
+ * <p>
  * 负责把 Configs 里的值（malilib 的 ConfigBoolean）映射到我们自己的 JSON 文件。
  */
 public final class ConfigManager {
@@ -27,6 +31,9 @@ public final class ConfigManager {
     }
 
     /**
+     * Load configuration from disk into memory. Writes default configuration if
+     * the file does not exist.
+     * <p>
      * 从磁盘读取配置到内存。若文件不存在则写入默认配置。
      */
     public void load() throws IOException {
@@ -48,6 +55,8 @@ public final class ConfigManager {
     }
 
     /**
+     * Save in-memory configuration back to disk.
+     * <p>
      * 将内存中的配置写回磁盘。
      */
     public void save() {

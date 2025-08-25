@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Collection of configuration options for the mod.
+ * <p>
  * mod 自身的配置项集合。
  */
 public final class Configs {
@@ -17,11 +19,14 @@ public final class Configs {
 
     private static final String GENERIC = LitematicaShulkerSupply.MOD_ID + ".config.generic";
 
-    /** 是否启用潜影盒供应功能 */
+    /** Whether the shulker supply feature is enabled */
     public static final ConfigBoolean ENABLED =
             new ConfigBoolean("shulkerSupply", true).apply(GENERIC);
 
     /**
+     * Return the list of custom configuration options for registration with
+     * Litematica.
+     * <p>
      * 返回本模组自定义的配置项列表，供 Litematica 注册。
      */
     public static ImmutableList<IConfigBase> getOwnOptions() {

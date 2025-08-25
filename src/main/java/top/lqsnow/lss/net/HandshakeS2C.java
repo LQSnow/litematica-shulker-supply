@@ -8,6 +8,9 @@ import net.minecraft.util.Identifier;
 import static top.lqsnow.lss.LitematicaShulkerSupply.MOD_ID;
 
 /**
+ * Handshake response sent from server to client indicating whether the server
+ * has the mod installed.
+ * <p>
  * 服务端回应客户端的握手数据包，告知是否安装了本模组。
  */
 public record HandshakeS2C(boolean ok) implements CustomPayload {
