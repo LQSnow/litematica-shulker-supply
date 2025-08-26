@@ -6,7 +6,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -22,31 +24,26 @@ import fi.dy.masa.litematica.util.EntityUtils;
 @Mixin(value = PrepareAction.class)
 public abstract class PrepareActionSupplyMixin {
 
-    /**
-     * 在打印机真正改槽/转头/交互之前，尝试把“所需物品”从潜影盒整格互换到快捷栏（并选中）。
-     * 失败不拦截原行为。
-     */
+    @Final
+    @Shadow
+    public PrinterPlacementContext context; // ✅ 正确 Shadow 目标字段
+
     @Inject(method = "send(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/network/ClientPlayerEntity;)V",
             at = @At("HEAD"))
     private void lss$trySupplyBeforeSend(MinecraftClient client, ClientPlayerEntity player, CallbackInfo ci) {
-        MinecraftClient.getInstance().player.sendMessage(Text.of("111"), false);
+
         if (player == null || player.isCreative()) return;
         if (!top.lqsnow.lss.config.Configs.ENABLED.getBooleanValue()) return;
-        if (Configs.Generic.PICK_BLOCK_SHULKERS.getBooleanValue()) return; // 与原生冲突则让原生生效
+        if (fi.dy.masa.litematica.config.Configs.Generic.PICK_BLOCK_SHULKERS.getBooleanValue()) return;
         if (!LitematicaShulkerSupplyClient.SERVER_HAS_MOD) return;
 
-        // 拿到 PrinterPlacementContext 中准备的“所需物品”
-        PrepareAction self = (PrepareAction)(Object)this;
-        PrinterPlacementContext ctx = self.context;
+        PrinterPlacementContext ctx = this.context;
         if (ctx == null) return;
 
         ItemStack required = ctx.getStack();
         if (required == null || required.isEmpty()) return;
+        if (fi.dy.masa.litematica.util.EntityUtils.getUsedHandForItem(player, required) != null) return;
 
-        // 如果手上已经有（主/副手） -> 不处理
-        if (EntityUtils.getUsedHandForItem(player, required) != null) return;
-
-        // 交给你现成的整格互换逻辑（含客户端预测 + C2S + 服务器校验 + 同步）
         ShulkerSwapClientLogic.tryExtractFromShulkerAndSwap(client, required);
     }
 }

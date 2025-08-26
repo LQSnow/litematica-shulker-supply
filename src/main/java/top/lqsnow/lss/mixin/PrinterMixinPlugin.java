@@ -37,7 +37,8 @@ public final class PrinterMixinPlugin implements IMixinConfigPlugin {
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         // 仅当装了 Printer 时，才启用对其的适配 mixin
-        if (mixinClassName.endsWith("printer.GuideShulkerAccessMixin")) {
+        if (mixinClassName.endsWith("printer.GuideShulkerAccessMixin")
+                || mixinClassName.endsWith("printer.PrepareActionSupplyMixin")) {
             return hasPrinter;
         }
         return true;

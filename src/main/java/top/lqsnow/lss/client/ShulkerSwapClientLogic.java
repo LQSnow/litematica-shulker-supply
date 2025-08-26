@@ -1,5 +1,7 @@
 package top.lqsnow.lss.client;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.client.MinecraftClient;
@@ -25,6 +27,7 @@ import top.lqsnow.lss.net.SwapFromShulkerC2S;
  * <p>
  * 客户端关于潜影盒整格互换的核心逻辑封装。
  */
+@Environment(EnvType.CLIENT)
 public class ShulkerSwapClientLogic {
 
 

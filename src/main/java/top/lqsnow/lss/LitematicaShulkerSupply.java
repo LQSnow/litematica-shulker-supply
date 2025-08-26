@@ -71,15 +71,16 @@ public class LitematicaShulkerSupply implements ModInitializer {
      */
     private static void handleSwapFromShulker(ServerPlayerEntity player, int boxContainerSlotId, int innerIndex, int destHotbar) {
         if (destHotbar < 0 || destHotbar > 8) return;
+        if (player.isCreative()) return; // 可选：与客户端保持一致
 
         PlayerScreenHandler handler = player.playerScreenHandler;
         if (boxContainerSlotId < 0 || boxContainerSlotId >= handler.slots.size()) return;
 
         Slot boxSlot = handler.slots.get(boxContainerSlotId);
+        if (boxSlot.inventory != player.getInventory()) return;
+
         ItemStack boxStack = boxSlot.getStack();
-        if (!(boxStack.getItem() instanceof BlockItem bi) || !(bi.getBlock() instanceof ShulkerBoxBlock)) {
-            return; // Not a shulker box
-        }
+        if (!(boxStack.getItem() instanceof BlockItem bi) || !(bi.getBlock() instanceof ShulkerBoxBlock)) return;
 
         ContainerComponent container = boxStack.getComponents().get(DataComponentTypes.CONTAINER);
         if (container == null) return;
@@ -91,27 +92,22 @@ public class LitematicaShulkerSupply implements ModInitializer {
         ItemStack fromBox = list.get(innerIndex).copy();
         if (fromBox.isEmpty()) return;
 
-        // ✅ 关键改动：用玩家“逻辑热栏索引”直接访问/写入，而不是 36 + hotbar 的容器索引
         PlayerInventory inv = player.getInventory();
         ItemStack destExisting = inv.getStack(destHotbar).copy();
 
-        // Prevent "shulker-in-shulker"
         if (!destExisting.isEmpty() && destExisting.getItem() instanceof BlockItem bi2 && bi2.getBlock() instanceof ShulkerBoxBlock) {
             return;
         }
 
-        // 执行互换：热栏 <- 盒内；盒内 <- 原热栏
         inv.setStack(destHotbar, fromBox);
         list.set(innerIndex, destExisting);
         boxStack.set(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(list));
         boxSlot.setStack(boxStack);
 
-        // 选择该热栏（与客户端预测一致）
         inv.setSelectedSlot(destHotbar);
-
-        // 标脏 + 同步
         inv.markDirty();
         handler.sendContentUpdates();
     }
+
 }
 

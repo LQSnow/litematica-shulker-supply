@@ -5,11 +5,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import top.lqsnow.lss.LitematicaShulkerSupply;
 import top.lqsnow.lss.config.ConfigManager;
 import top.lqsnow.lss.net.HandshakeC2S;
 import top.lqsnow.lss.net.HandshakeS2C;
+import top.lqsnow.lss.net.SwapFromShulkerC2S;
 
 /**
  * Client entry point. Performs handshake with the server and records whether
@@ -38,10 +40,21 @@ public class LitematicaShulkerSupplyClient implements ClientModInitializer {
             LitematicaShulkerSupply.LOGGER.warn("[{}] Failed to pre-load config: {}", LitematicaShulkerSupply.MOD_ID, e.getMessage());
         }
 
-        // 进服即发起握手
+        PayloadTypeRegistry.playC2S().register(HandshakeC2S.ID, HandshakeC2S.CODEC);
+        PayloadTypeRegistry.playC2S().register(SwapFromShulkerC2S.ID, SwapFromShulkerC2S.CODEC);
+        PayloadTypeRegistry.playS2C().register(HandshakeS2C.ID, HandshakeS2C.CODEC);
+
+        // 进服事件：安全握手
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             SERVER_HAS_MOD = false;
-            ClientPlayNetworking.send(new HandshakeC2S());
+            if (ClientPlayNetworking.canSend(HandshakeC2S.ID)) {
+                ClientPlayNetworking.send(new HandshakeC2S());
+            }
+        });
+
+        // 断线时重置
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            SERVER_HAS_MOD = false;
         });
 
         // 收到握手回应
