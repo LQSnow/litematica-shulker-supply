@@ -4,12 +4,17 @@ Litematica Shulker Supply 是一个 Fabric 模组，为 Litematica 及其打印�
 
 ## 依赖
 
-本模组需要在客户端和服务端同时安装以下依赖：
+### 客户端：
 
 - [Fabric API](https://modrinth.com/mod/fabric-api) ≥ 0.132.0
 - [malilib](https://modrinth.com/mod/malilib) ≥ 0.25.4
 - [Litematica](https://modrinth.com/mod/litematica) ≥ 0.23.3
 - 可选：[Litematica Printer](https://modrinth.com/mod/litematica-printer) ≥ 3.2.1-sakura.8
+- Minecraft 1.21.8 与 Fabric Loader ≥ 0.17.2
+- Java 21
+
+### 服务端：
+- [Fabric API](https://modrinth.com/mod/fabric-api) ≥ 0.132.0
 - Minecraft 1.21.8 与 Fabric Loader ≥ 0.17.2
 - Java 21
 

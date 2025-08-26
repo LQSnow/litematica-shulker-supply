@@ -8,7 +8,7 @@ A tiny Fabric mod that teaches **Litematica** (and optionally **Litematica Print
 
 ## Requirements
 
-Install on **client**:
+### Client:
 
 - **Fabric API** ≥ 0.132.0
 - **malilib** ≥ 0.25.4
@@ -17,7 +17,7 @@ Install on **client**:
 - **Minecraft** 1.21.8 & **Fabric Loader** ≥ 0.17.2
 - **Java 21**
 
-Install on **server**:
+### Server:
 - **Fabric API** ≥ 0.132.0
 - **Minecraft** 1.21.8 & **Fabric Loader** ≥ 0.17.2
 - **Java 21**
