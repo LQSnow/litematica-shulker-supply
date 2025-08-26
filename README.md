@@ -1,6 +1,6 @@
 # Litematica Shulker Supply
 
-> 中文版 **[README.zh.md](README.zh.md)**
+> Chinese version: **[README.zh.md](README.zh.md)**
 
 A tiny Fabric mod that teaches **Litematica** (and optionally **Litematica Printer**) to auto‑restock from **Shulker Boxes** in your **player inventory**. When an item is missing, it is automatically taken from the Shulker Box and placed in the hotbar.
 

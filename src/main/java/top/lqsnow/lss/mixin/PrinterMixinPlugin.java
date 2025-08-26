@@ -13,7 +13,7 @@ public final class PrinterMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void onLoad(String mixinPackage) {
-        // 两种可能的 modid 都试一下；再兜底用类存在性判断
+        // Try both potential mod IDs; fallback to checking class existence
         this.hasPrinter =
                 FabricLoader.getInstance().isModLoaded("litematica-printer")
                         || FabricLoader.getInstance().isModLoaded("litematica_printer")
@@ -31,12 +31,12 @@ public final class PrinterMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public String getRefMapperConfig() {
-        return null; // 用默认 refmap
+        return null; // use default refmap
     }
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        // 仅当装了 Printer 时，才启用对其的适配 mixin
+        // Enable printer-specific mixins only if the printer mod is present
         if (mixinClassName.endsWith("printer.GuideShulkerAccessMixin")
                 || mixinClassName.endsWith("printer.PrepareActionSupplyMixin")) {
             return hasPrinter;
@@ -48,7 +48,7 @@ public final class PrinterMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public List<String> getMixins() {
-        // 返回 null 让 Mixin 使用 json 里的列表
+        // Return null to let Mixin use the list from the JSON
         return null;
     }
 

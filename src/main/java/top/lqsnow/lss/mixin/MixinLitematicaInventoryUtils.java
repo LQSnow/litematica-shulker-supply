@@ -40,13 +40,13 @@ public abstract class MixinLitematicaInventoryUtils {
         var player = mc.player;
         if (player == null) return false;
 
-        // 主背包（含热栏）
+        // Main inventory including hotbar
         for (ItemStack s : player.getInventory().getMainStacks()) {
             if (!s.isEmpty() && fi.dy.masa.malilib.util.InventoryUtils.areStacksEqualIgnoreNbt(s, required)) {
                 return true;
             }
         }
-        // 副手
+        // Offhand
         ItemStack off = player.getOffHandStack();
         return !off.isEmpty() && fi.dy.masa.malilib.util.InventoryUtils.areStacksEqualIgnoreNbt(off, required);
     }

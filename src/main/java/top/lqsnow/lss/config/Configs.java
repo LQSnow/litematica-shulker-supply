@@ -10,8 +10,6 @@ import java.util.List;
 
 /**
  * Collection of configuration options for the mod.
- * <p>
- * mod 自身的配置项集合。
  */
 public final class Configs {
     private Configs() {
@@ -26,8 +24,6 @@ public final class Configs {
     /**
      * Return the list of custom configuration options for registration with
      * Litematica.
-     * <p>
-     * 返回本模组自定义的配置项列表，供 Litematica 注册。
      */
     public static ImmutableList<IConfigBase> getOwnOptions() {
         List<IConfigBase> list = new ArrayList<>();

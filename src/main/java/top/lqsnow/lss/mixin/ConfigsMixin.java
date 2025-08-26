@@ -9,7 +9,8 @@ import top.lqsnow.lss.LitematicaShulkerSupply;
 import top.lqsnow.lss.client.LitematicaShulkerSupplyClient;
 
 /**
- * 在 Litematica 读取和保存配置时同步本模组的配置文件。
+ * Synchronizes this mod's config file when Litematica loads or saves its own
+ * configuration.
  */
 @Mixin(value = Configs.class, remap = false, priority = 500)
 public class ConfigsMixin {
@@ -19,7 +20,7 @@ public class ConfigsMixin {
         try {
             LitematicaShulkerSupplyClient.CONFIG.load();
         } catch (Exception e) {
-            // 已在管理器里做了日志，这里不再重复抛异常
+            // Logging handled in the manager; suppress exception
         }
     }
 

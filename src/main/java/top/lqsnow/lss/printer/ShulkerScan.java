@@ -14,8 +14,6 @@ import java.util.List;
 
 /**
  * Utility helpers for scanning shulker boxes when used with printers.
- * <p>
- * 与打印机相关的潜影盒扫描工具。
  */
 public final class ShulkerScan {
     private ShulkerScan() {}
@@ -24,9 +22,6 @@ public final class ShulkerScan {
      * Search the player's visible container for the first shulker box containing
      * any of the candidate items. Returns a copy of the matching stack or
      * {@code null} if not found.
-     * <p>
-     * 在玩家可见容器（自身背包面板）里，查找第一只包含 candidates 中任一物品的潜影盒；
-     * 找到则返回盒内真实的 ItemStack 副本；找不到返回 null。
      */
     public static ItemStack findFirstInAnyShulker(ClientPlayerEntity player, List<ItemStack> candidates) {
         if (player == null || candidates == null || candidates.isEmpty()) return null;
