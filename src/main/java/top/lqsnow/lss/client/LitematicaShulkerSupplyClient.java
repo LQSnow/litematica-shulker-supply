@@ -40,10 +40,6 @@ public class LitematicaShulkerSupplyClient implements ClientModInitializer {
             LitematicaShulkerSupply.LOGGER.warn("[{}] Failed to pre-load config: {}", LitematicaShulkerSupply.MOD_ID, e.getMessage());
         }
 
-        PayloadTypeRegistry.playC2S().register(HandshakeC2S.ID, HandshakeC2S.CODEC);
-        PayloadTypeRegistry.playC2S().register(SwapFromShulkerC2S.ID, SwapFromShulkerC2S.CODEC);
-        PayloadTypeRegistry.playS2C().register(HandshakeS2C.ID, HandshakeS2C.CODEC);
-
         // 进服事件：安全握手
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             SERVER_HAS_MOD = false;
