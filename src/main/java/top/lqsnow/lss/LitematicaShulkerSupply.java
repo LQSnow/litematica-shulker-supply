@@ -24,8 +24,6 @@ import top.lqsnow.lss.net.SwapFromShulkerC2S;
 /**
  * Server entry point of the mod. Registers networking payloads, handles
  * shulker-to-hotbar swapping and loads the configuration on startup.
- * <p>
- * 模组服务端入口，负责注册网络负载、处理潜影盒与快捷栏的互换逻辑，并在启动时加载配置。
  */
 public class LitematicaShulkerSupply implements ModInitializer {
     public static final String MOD_ID = "litematica-shulker-supply";
@@ -34,7 +32,6 @@ public class LitematicaShulkerSupply implements ModInitializer {
 
     /**
      * Initialize networking payloads and read configuration.
-     * 初始化：注册网络负载与处理器，并读取配置。
      */
     @Override
     public void onInitialize() {
@@ -66,12 +63,10 @@ public class LitematicaShulkerSupply implements ModInitializer {
      * Execute the swap: move one slot from shulker box to a hotbar slot and put
      * the previous hotbar item back into the shulker. Any invalid parameter will
      * simply abort the operation silently.
-     * <p>
-     * 交换执行：潜影盒内某格与玩家快捷栏某槽整格互换。如参数非法则直接返回。
      */
     private static void handleSwapFromShulker(ServerPlayerEntity player, int boxContainerSlotId, int innerIndex, int destHotbar) {
         if (destHotbar < 0 || destHotbar > 8) return;
-        if (player.isCreative()) return; // 可选：与客户端保持一致
+        if (player.isCreative()) return; // Optional: match client behavior
 
         PlayerScreenHandler handler = player.playerScreenHandler;
         if (boxContainerSlotId < 0 || boxContainerSlotId >= handler.slots.size()) return;

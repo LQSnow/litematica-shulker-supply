@@ -24,20 +24,19 @@ import top.lqsnow.lss.net.SwapFromShulkerC2S;
 /**
  * Core client-side logic for swapping items between shulker boxes and the
  * player's hotbar.
- * <p>
- * 客户端关于潜影盒整格互换的核心逻辑封装。
  */
 @Environment(EnvType.CLIENT)
 public class ShulkerSwapClientLogic {
 
 
     /**
-     * 尝试从潜影盒中取出匹配的物品并与指定快捷栏槽位整格互换。
-     * 成功时会进行客户端预测并向服务端发送确认数据包。
+     * Attempt to extract a matching item from a shulker box and swap it with
+     * the specified hotbar slot. Performs client-side prediction and sends a
+     * confirmation packet to the server when successful.
      *
-     * @param mc       当前客户端实例
-     * @param required 需要的物品
-     * @return 是否成功完成互换
+     * @param mc       current client instance
+     * @param required required item stack
+     * @return whether the swap completed successfully
      */
     public static boolean tryExtractFromShulkerAndSwap(MinecraftClient mc, ItemStack required) {
         PlayerEntity player = mc.player;
@@ -46,11 +45,11 @@ public class ShulkerSwapClientLogic {
         PlayerScreenHandler handler = player.playerScreenHandler;
         PlayerInventory inv = player.getInventory();
 
-        // 1) 找“第一只包含目标物品”的潜影盒：返回 (容器槽位ID, 盒内索引)
+        // 1) Find the first shulker containing the required item: (container slot ID, inner index)
         ShulkerHit hit = findShulkerWithRequired(handler, required);
         if (hit == null) return false;
 
-        // 2) 选择目标快捷栏槽位（沿用投影规则 + 该槽不能是潜影盒）
+        // 2) Pick a target hotbar slot (follow pick block rules and exclude shulker slots)
         int hotbarSlot = pickHotbarTarget(inv, player);
         if (hotbarSlot < 0) {
             InfoUtils.showGuiOrInGameMessage(MessageType.WARNING, "litematica.message.warn.pickblock.no_suitable_slot_found");
@@ -60,13 +59,13 @@ public class ShulkerSwapClientLogic {
         ItemStack fromBox = hit.innerCopy();
         ItemStack destExisting = inv.getStack(hotbarSlot).copy();
 
-        // 禁止“潜影盒进潜影盒”
+        // Disallow shulker boxes inside shulker boxes
         if (!destExisting.isEmpty() && destExisting.getItem() instanceof BlockItem bi && bi.getBlock() instanceof ShulkerBoxBlock) {
             InfoUtils.showGuiOrInGameMessage(MessageType.WARNING, "litematica.message.warn.pickblock.no_suitable_slot_found");
             return false;
         }
 
-        // 3) 同帧客户端预测：整格互换（盒内 innerIndex <-> 快捷栏 hotbarSlot）
+        // 3) Client-side prediction: swap innerIndex with hotbarSlot
         inv.getMainStacks().set(hotbarSlot, fromBox.copy());
         inv.setSelectedSlot(hotbarSlot);
         if (mc.getNetworkHandler() != null) {
@@ -79,16 +78,17 @@ public class ShulkerSwapClientLogic {
         boxStack.set(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(list));
         hit.boxSlot.setStack(boxStack);
 
-        // 4) 发包让服务端确认
+        // 4) Send packet for server confirmation
         ClientPlayNetworking.send(new SwapFromShulkerC2S(hit.containerSlotId, hit.innerIndex, hotbarSlot));
 
-        // 记录限速（与投影一致）
+        // Record cooldown (matches pick block rate limit)
         fi.dy.masa.litematica.util.WorldUtils.setEasyPlaceLastPickBlockTime();
         return true;
     }
 
     /**
-     * 在当前容器中查找第一只包含所需物品的潜影盒。
+     * Search the current container for the first shulker box containing the
+     * required item.
      */
     private static ShulkerHit findShulkerWithRequired(PlayerScreenHandler handler, ItemStack required) {
         for (int i = 0; i < handler.slots.size(); i++) {
@@ -112,20 +112,22 @@ public class ShulkerSwapClientLogic {
     }
 
     /**
-     * 在潜影盒物品列表中查找第一处与目标物品匹配的索引。
+     * Find the index of the first item matching the required stack within a
+     * shulker box's contents.
      */
     private static int firstIndexMatch(DefaultedList<ItemStack> list, ItemStack required) {
         for (int i = 0; i < list.size(); i++) {
             ItemStack it = list.get(i);
             if (!it.isEmpty() && fi.dy.masa.malilib.util.InventoryUtils.areStacksEqualIgnoreNbt(it, required)) {
-                return i; // 第一格匹配
+                return i; // first matching slot
             }
         }
         return -1;
     }
 
     /**
-     * 选择目标快捷栏槽位，要求该槽位可用于 pick block 且不是潜影盒。
+     * Select a target hotbar slot that can be used for pick block and is not a
+     * shulker box.
      */
     private static int pickHotbarTarget(PlayerInventory inv, PlayerEntity player) {
         int slot = AccessorLitematicaInventoryUtils.lss$invokeGetEmptyPickBlockableHotbarSlot(inv);
@@ -136,13 +138,13 @@ public class ShulkerSwapClientLogic {
 
         ItemStack exist = inv.getStack(slot);
         if (!exist.isEmpty() && exist.getItem() instanceof BlockItem bi && bi.getBlock() instanceof ShulkerBoxBlock) {
-            return -1; // 新增的“目标槽不能是潜影盒”的约束
+            return -1; // new constraint: target slot cannot hold a shulker box
         }
         return slot;
     }
 
     /**
-     * 记录一次命中的潜影盒及其相关信息。
+     * Record information about a shulker box that matched the required item.
      */
     private record ShulkerHit(int containerSlotId, Slot boxSlot, DefaultedList<ItemStack> list, int innerIndex) {
         ItemStack innerCopy() { return list.get(innerIndex).copy(); }

@@ -10,8 +10,6 @@ import static top.lqsnow.lss.LitematicaShulkerSupply.MOD_ID;
 /**
  * Handshake packet sent from client to server to check whether the server has
  * this mod installed.
- * <p>
- * 客户端向服务端发送的握手数据包，用于检测对方是否安装本模组。
  */
 public record HandshakeC2S() implements CustomPayload {
     public static final Id<HandshakeC2S> ID = new Id<>(Identifier.of(MOD_ID, "hello_c2s"));

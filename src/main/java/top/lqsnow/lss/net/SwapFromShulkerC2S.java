@@ -10,8 +10,6 @@ import static top.lqsnow.lss.LitematicaShulkerSupply.MOD_ID;
 /**
  * Client packet notifying the server to swap a slot in a shulker box with a
  * hotbar slot.
- * <p>
- * 客户端通知服务端：将潜影盒中的某格与玩家快捷栏槽位进行整格互换。
  */
 public record SwapFromShulkerC2S(int boxContainerSlotId, int innerIndex, int destHotbarSlot) implements CustomPayload {
 

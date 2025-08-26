@@ -14,10 +14,8 @@ import top.lqsnow.lss.net.HandshakeS2C;
 import top.lqsnow.lss.net.SwapFromShulkerC2S;
 
 /**
- * Client entry point. Performs handshake with the server and records whether
- * the server has this mod installed.
- * <p>
- * 客户端入口，负责与服务器进行握手，并记录服务器是否安装了本模组。
+ * Client entry point. Performs a handshake with the server and records
+ * whether the server has this mod installed.
  */
 @Environment(EnvType.CLIENT)
 public class LitematicaShulkerSupplyClient implements ClientModInitializer {
@@ -26,11 +24,12 @@ public class LitematicaShulkerSupplyClient implements ClientModInitializer {
             FabricLoader.getInstance().getConfigDir().resolve(LitematicaShulkerSupply.MOD_ID + ".json")
     );
 
-    /** 标记当前服务器是否已加载本模组 */
+    /** Flag indicating whether the current server has the mod installed */
     public static volatile boolean SERVER_HAS_MOD = false;
 
     /**
-     * 初始化客户端：注册握手逻辑，在进入世界时进行检测。
+     * Initialize the client by registering handshake logic and performing
+     * checks when joining a world.
      */
     @Override
     public void onInitializeClient() {
@@ -40,7 +39,7 @@ public class LitematicaShulkerSupplyClient implements ClientModInitializer {
             LitematicaShulkerSupply.LOGGER.warn("[{}] Failed to pre-load config: {}", LitematicaShulkerSupply.MOD_ID, e.getMessage());
         }
 
-        // 进服事件：安全握手
+        // On join: perform handshake
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             SERVER_HAS_MOD = false;
             if (ClientPlayNetworking.canSend(HandshakeC2S.ID)) {
@@ -48,12 +47,12 @@ public class LitematicaShulkerSupplyClient implements ClientModInitializer {
             }
         });
 
-        // 断线时重置
+        // Reset on disconnect
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             SERVER_HAS_MOD = false;
         });
 
-        // 收到握手回应
+        // Receive handshake response
         ClientPlayNetworking.registerGlobalReceiver(HandshakeS2C.ID, (payload, context) -> {
             SERVER_HAS_MOD = payload.ok();
         });

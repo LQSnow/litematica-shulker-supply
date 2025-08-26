@@ -19,14 +19,15 @@ import fi.dy.masa.litematica.config.Configs;
 import fi.dy.masa.litematica.util.EntityUtils;
 
 /**
- * 在打印机执行准备动作时，提前尝试从潜影盒中补充所需物品。
+ * During the printer's prepare action, attempt to supply required items from
+ * shulker boxes ahead of time.
  */
 @Mixin(value = PrepareAction.class)
 public abstract class PrepareActionSupplyMixin {
 
     @Final
     @Shadow
-    public PrinterPlacementContext context; // ✅ 正确 Shadow 目标字段
+    public PrinterPlacementContext context; // Shadowed target field
 
     @Inject(method = "send(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/network/ClientPlayerEntity;)V",
             at = @At("HEAD"))
