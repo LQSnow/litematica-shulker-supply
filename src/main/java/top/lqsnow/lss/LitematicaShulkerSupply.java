@@ -30,9 +30,7 @@ import top.lqsnow.lss.net.SwapFromShulkerC2S;
 public class LitematicaShulkerSupply implements ModInitializer {
     public static final String MOD_ID = "litematica-shulker-supply";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final ConfigManager CONFIG = new ConfigManager(
-            FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + ".json")
-    );
+
 
     /**
      * Initialize networking payloads and read configuration.
@@ -61,11 +59,7 @@ public class LitematicaShulkerSupply implements ModInitializer {
             ));
         });
 
-        try {
-            CONFIG.load();
-        } catch (Exception e) {
-            LOGGER.warn("[{}] Failed to pre-load config: {}", MOD_ID, e.getMessage());
-        }
+
     }
 
     /**

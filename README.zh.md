@@ -1,12 +1,6 @@
 # Litematica Shulker Supply
 
-Litematica Shulker Supply 是一个 Fabric 模组，为 Litematica 及其打印机添加“潜影盒供应”功能：当需要某种物品时，将其从潜影盒中整格取出并放入快捷栏。
-
-## 特性
-
-- 客户端和服务端握手，确保双方均安装模组。
-- 支持在打印模式下自动从潜影盒补充所需物品。
-- 可配置开关以快速启用或禁用该功能。
+Litematica Shulker Supply 是一个 Fabric 模组，为 Litematica 及其打印机添加“潜影盒供应”功能：当需要某种物品时，自动将其从潜影盒中取出并放入快捷栏。
 
 ## 依赖
 
@@ -26,23 +20,9 @@ Litematica Shulker Supply 是一个 Fabric 模组，为 Litematica 及其打印�
 
 ## 使用
 
-1. 启动游戏并打开 **Litematica → 配置 → 通用**。
+1. 启动游戏并打开 **Litematica → 配置菜单 → 通用**。
    - 启用 **`shulkerSupply`**（界面中显示为 **“启用潜影盒自动补货”**）
    - 关闭 **`pickBlockShulkers`**（界面中显示为 **“选取有此方块的潜影盒”**）  
      > 若未关闭 `pickBlockShulkers`，模组会让位于 Litematica 的原生行为。
 2. 将潜影盒放在**物品栏**中（而非放置在地面上）。
 3. 像平常一样建造/打印，缺少物品时模组会从匹配的潜影盒整格交换到快捷栏。
-
-配置文件会在首次运行后生成于 `config/litematica-shulker-supply.json`，亦可在其中修改开关。
-
-## 构建
-
-```bash
-./gradlew build
-```
-
-首次运行可能需要联网下载依赖。
-
-## 许可
-
-MIT License

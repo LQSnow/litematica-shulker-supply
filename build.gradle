@@ -25,8 +25,8 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "com.github.sakura-ryoko:malilib:${project.malilib_version}"
-	modImplementation "com.github.sakura-ryoko:litematica:${project.litematica_version}"
+	modCompileOnly "com.github.sakura-ryoko:malilib:${project.malilib_version}"
+	modCompileOnly "com.github.sakura-ryoko:litematica:${project.litematica_version}"
 	modCompileOnly "maven.modrinth:litematica-printer:${project.printer_version}"
 
 	modRuntimeOnly "maven.modrinth:litematica-printer:${project.printer_version}"
