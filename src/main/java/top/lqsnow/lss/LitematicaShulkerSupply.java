@@ -47,13 +47,12 @@ public class LitematicaShulkerSupply implements ModInitializer {
 
         // Swap a slot in shulker box with a hotbar slot
         ServerPlayNetworking.registerGlobalReceiver(SwapFromShulkerC2S.ID, (payload, context) -> {
-            ServerPlayerEntity player = context.player();
-            context.player().getServer().execute(() -> handleSwapFromShulker(
-                    player,
+            handleSwapFromShulker(
+                    context.player(),
                     payload.boxContainerSlotId(),
                     payload.innerIndex(),
                     payload.destHotbarSlot()
-            ));
+            );
         });
 
 

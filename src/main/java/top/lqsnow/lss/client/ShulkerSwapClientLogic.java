@@ -65,7 +65,10 @@ public class ShulkerSwapClientLogic {
             return false;
         }
 
-        // 3) Client-side prediction: swap innerIndex with hotbarSlot
+        // 3) Send packet for server confirmation
+        ClientPlayNetworking.send(new SwapFromShulkerC2S(hit.containerSlotId, hit.innerIndex, hotbarSlot));
+
+        // 4) Client-side prediction: swap innerIndex with hotbarSlot
         inv.getMainStacks().set(hotbarSlot, fromBox.copy());
         inv.setSelectedSlot(hotbarSlot);
         if (mc.getNetworkHandler() != null) {
@@ -78,8 +81,6 @@ public class ShulkerSwapClientLogic {
         boxStack.set(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(list));
         hit.boxSlot.setStack(boxStack);
 
-        // 4) Send packet for server confirmation
-        ClientPlayNetworking.send(new SwapFromShulkerC2S(hit.containerSlotId, hit.innerIndex, hotbarSlot));
 
         // Record cooldown (matches pick block rate limit)
         fi.dy.masa.litematica.util.WorldUtils.setEasyPlaceLastPickBlockTime();
