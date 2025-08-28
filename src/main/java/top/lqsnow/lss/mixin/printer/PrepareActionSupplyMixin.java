@@ -5,7 +5,6 @@ import me.aleksilassila.litematica.printer.implementation.PrinterPlacementContex
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,9 +13,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.lqsnow.lss.client.LitematicaShulkerSupplyClient;
 import top.lqsnow.lss.client.ShulkerSwapClientLogic;
-
-import fi.dy.masa.litematica.config.Configs;
-import fi.dy.masa.litematica.util.EntityUtils;
 
 /**
  * During the printer's prepare action, attempt to supply required items from

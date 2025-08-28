@@ -1,7 +1,6 @@
 package top.lqsnow.lss.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -11,9 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import fi.dy.masa.litematica.config.Configs;
-import fi.dy.masa.litematica.util.EntityUtils;
 import top.lqsnow.lss.client.LitematicaShulkerSupplyClient;
-import top.lqsnow.lss.client.ShulkerSwapClientLogic;
 
 @Mixin(value = fi.dy.masa.litematica.util.InventoryUtils.class)
 public abstract class MixinLitematicaInventoryUtils {

@@ -5,13 +5,11 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import top.lqsnow.lss.LitematicaShulkerSupply;
 import top.lqsnow.lss.config.ConfigManager;
 import top.lqsnow.lss.net.HandshakeC2S;
 import top.lqsnow.lss.net.HandshakeS2C;
-import top.lqsnow.lss.net.SwapFromShulkerC2S;
 
 /**
  * Client entry point. Performs a handshake with the server and records
