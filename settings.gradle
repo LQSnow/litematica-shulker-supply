@@ -1,10 +1,31 @@
+import groovy.json.JsonSlurper
+
 pluginManagement {
 	repositories {
-		maven {
-			name = 'Fabric'
-			url = 'https://maven.fabricmc.net/'
-		}
+		maven { name = 'Fabric'; url = 'https://maven.fabricmc.net/' }
+		maven { name = 'Jitpack'; url = 'https://maven.fallenbreath.me/jitpack' }
 		mavenCentral()
 		gradlePluginPortal()
 	}
+	// 将 com.replaymod.preprocess 插件映射到 Fallen-Breath 的 fork（用 commit 号）
+	resolutionStrategy {
+		eachPlugin {
+			switch (requested.id.id) {
+				case "com.replaymod.preprocess":
+					useModule("com.github.Fallen-Breath:preprocessor:${requested.version}")
+					break
+			}
+		}
+	}
+}
+
+rootProject.name = 'litematica-shulker-supply'
+
+def settingsJson = new JsonSlurper().parseText(file('settings.json').text)
+for (String v : settingsJson.versions) {
+	include(":$v")
+	def p = project(":$v")
+	p.projectDir = file("versions/$v")
+	// 所有子工程共用根目录的 common.gradle
+	p.buildFileName = "../../common.gradle"
 }

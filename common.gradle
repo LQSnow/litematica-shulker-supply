@@ -1,0 +1,102 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+def mainProjectName = file("${rootDir}/versions/mainProject").text.trim()
+
+sourceSets {
+    if (project.name == mainProjectName) {
+        // 让“主版本”模块使用根目录的源码与资源
+        main.java.srcDirs = ["${rootDir}/src/main/java"]
+        main.resources.srcDirs = ["${rootDir}/src/main/resources"]
+    }
+}
+
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    maven { url = 'https://masa.dy.fi/maven' }
+    maven { url = 'https://maven.fallenbreath.me/releases' }
+    maven { url = 'https://maven.terraformersmc.com/releases/' }
+    maven { url = 'https://jitpack.io' }
+    maven { url = "https://api.modrinth.com/maven" }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modCompileOnly "com.github.sakura-ryoko:malilib:${project.malilib_version}"
+    modCompileOnly "com.github.sakura-ryoko:litematica:${project.litematica_version}"
+    modCompileOnly "maven.modrinth:litematica-printer:${project.printer_version}"
+
+    modRuntimeOnly "com.github.sakura-ryoko:malilib:${project.malilib_version}"
+    modRuntimeOnly "com.github.sakura-ryoko:litematica:${project.litematica_version}"
+    modRuntimeOnly "maven.modrinth:litematica-printer:${project.printer_version}"
+
+}
+
+processResources {
+    def props = [
+            version: project.version,
+            minecraft_version: project.property('minecraft_version')  // 来自 :1.21.8 的 gradle.properties
+    ]
+    inputs.properties props
+
+    filesMatching("fabric.mod.json") {
+        expand(props)
+    }
+}
+
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+java {
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    inputs.property "archivesName", project.base.archivesName
+
+    from("LICENSE") {
+        rename { "${it}_${inputs.properties.archivesName}"}
+    }
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}
+
+tasks.named('remapSourcesJar').configure { enabled = false }
